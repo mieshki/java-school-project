@@ -1,9 +1,16 @@
 package poj1.hellomakapaka.ObjectsOnMap;
 
+import Items.SmallHealthPotion;
 import poj1.hellomakapaka.Console;
 
 public class Chest extends MapElement
 {
+    private int _type = 1;
+    public int GetElementType()
+    {
+        return _type;
+    }
+    
     private char _symbol = 'C';
     public char GetSymbol()
     {
@@ -18,13 +25,28 @@ public class Chest extends MapElement
    
     public void PrintSymbol()
     {
-        Console.PrintPurple(this.GetSymbol());
+        Console.PrintPurple(this.GetSymbol()); 
     }
     
-    public boolean isInteractive = true;
-    
-    public void Interact()
+    private boolean _isInteractive = true;
+    public boolean IsInteractive()
     {
-        Console.PrintCyan("You found hidden sword!\n");
+        return _isInteractive;
+    }
+    
+    
+    public String Interact(Player player)
+    {
+        int itemCount = player.allItems.size();
+        
+        if(itemCount <= player.GetMaxBackpackSize())
+        {
+            player.allItems.add(new SmallHealthPotion());
+            return "You found health potion!"; 
+        }
+        else
+        {
+            return "You found health potion, but your backpack is full.";
+        }
     }
 }

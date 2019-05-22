@@ -5,6 +5,12 @@ import poj1.hellomakapaka.Console;
 
 public class Road extends MapElement
 { 
+    private int _type = 2;
+    public int GetElementType()
+    {
+        return _type;
+    }
+    
     private char _symbol = '#';
     public char GetSymbol()
     {

@@ -4,6 +4,12 @@ import poj1.hellomakapaka.Console;
 
 public class Unreachable extends MapElement
 {
+    private int _type = 3;
+    public int GetElementType()
+    {
+        return _type;
+    }
+    
     private char _symbol = 'X';
     public char GetSymbol()
     {
@@ -21,5 +27,11 @@ public class Unreachable extends MapElement
         Console.PrintRed(this.GetSymbol());
     }
     
-    public boolean isInteractive = true;
+    private boolean _isInteractive = true;
+    public boolean IsInteractive()
+    {
+        return _isInteractive;
+    }
+    
+    public String Interact(Player player){ return "test interact with unreachable element, example: wall"; }
 }

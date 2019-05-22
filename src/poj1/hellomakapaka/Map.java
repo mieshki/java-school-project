@@ -23,7 +23,6 @@ public class Map
     }
     Map(int width, int height)
     {
-        
         this.width = width;
         this.height = height;
         CreateMapAndFillWitHashs();
@@ -51,8 +50,19 @@ public class Map
         } 
     }
     
+    String msgToBePrinted = "\n";
+    public void SetComunicate(String msg)
+    {
+        msgToBePrinted = msg + "\n";
+    }
+    public void PrintComunicate()
+    {
+        Console.PrintRed(msgToBePrinted);
+        msgToBePrinted= "\n";
+    }
     public void PrintBoard()
     {
+        PrintComunicate();
         for(int h = 0; h < height; h++)
         {
             for(int w = 0; w < width; w++)
@@ -67,5 +77,6 @@ public class Map
     {
         allCells[width][height] = newElement;
     }
+   
     
 }

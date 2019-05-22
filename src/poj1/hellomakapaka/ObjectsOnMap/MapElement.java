@@ -4,6 +4,12 @@ import poj1.hellomakapaka.Console;
 
 public class MapElement 
 {
+    private int _type;
+    public int GetElementType()
+    {
+        return _type;
+    }
+    
     private char _symbol;
     public char GetSymbol()
     {
@@ -19,9 +25,13 @@ public class MapElement
     public void PrintSymbol()
     {
         Console.PrintBlack(GetSymbol());
-    };
+    }
     
-    public boolean isInteractive;
+    private boolean _isInteractive;
+    public boolean IsInteractive()
+    {
+        return _isInteractive;
+    }
     
-    public void Interact(){Console.PrintBlack("test");};
+    public String Interact(Player player){ return "test interact with mapelement, shouldn't be shown"; }
 }

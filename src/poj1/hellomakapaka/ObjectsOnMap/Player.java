@@ -1,11 +1,73 @@
 package poj1.hellomakapaka.ObjectsOnMap;
 
+import Items.SmallHealthPotion;
+import Items.Item;
+import java.util.ArrayList;
 import poj1.hellomakapaka.Console;
 import poj1.hellomakapaka.Map;
 
 public class Player extends MapElement
 {
-    Map currentMap;
+    public Map currentMap;
+    
+    private int _maxBackpackSize = 7;
+    public int GetMaxBackpackSize()
+    {
+        return _maxBackpackSize;
+    }
+    
+    private int _actualHP = 100;
+    public int GetActualHP()
+    {
+        return _actualHP;
+    }
+    public void SetActualHP(int hp)
+    {
+         if(_actualHP + hp > GetMaxHP())
+             _actualHP = GetMaxHP();
+         else
+             _actualHP += hp;
+    }
+    
+    private int _maxHP = _actualHP + 1;
+    public int GetMaxHP()
+    {
+        return _maxHP;
+    }
+    public void SetMaxHP(int maxHP)
+    {
+        _maxHP = maxHP;
+    }
+    
+    private int _actualMana = 50;
+    public int GetActualMana()
+    {
+        return _actualMana;
+    }
+    public void SetActualMana(int mana)
+    {
+        _actualMana = mana;
+    }
+    
+    private int _maxMana = _actualMana;
+    public int GetMaxMana()
+    {
+        return _maxMana;
+    }
+    public void SetMaxMana(int maxMana)
+    {
+        _maxMana = maxMana;
+    }
+    
+    private int _money = 10;
+    public int GetMoney()
+    {
+        return _money;
+    }
+    public void SetMoney(int money)
+    {
+        _money = money;  
+    }
     
     private int _widthPos;
     public int GetWidth()
@@ -18,6 +80,9 @@ public class Player extends MapElement
     {
         return _heightPos;
     }
+    
+    public ArrayList<Item> allItems = new ArrayList<Item>();
+    
     
     public Player(int widthPos, int heightPos, Map currentMap)
     {
@@ -68,6 +133,10 @@ public class Player extends MapElement
         try
         {
             MapElement collidedObject = this.currentMap.allCells[GetWidth() + width][GetHeight() + height];
+            int _type = collidedObject.GetElementType();
+            if(_type == 1)
+                collidedObject = (Chest)collidedObject;
+            
             
             if(collidedObject != null && collidedObject.GetSymbol() == new Road().GetSymbol())
             {
@@ -80,12 +149,24 @@ public class Player extends MapElement
             else
             {
                 //Console.PrintBlack(collidedObject.isInteractive + " :(");
-                Console.PrintRed("Unreachable area - object: " + collidedObject.GetFullName() + "\n");
+                if(collidedObject.IsInteractive())
+                {
+                    String msg = collidedObject.Interact(this);
+                    if(_type == 1) // if it's chest destroy, meanwhile replace with road
+                    {
+                        this.currentMap.allCells[GetWidth() + width][GetHeight() + height] = new Road();
+                    }
+                    this.currentMap.SetComunicate(msg);
+                }
+                else
+                {
+                    this.currentMap.SetComunicate("Unreachable area - object: " + collidedObject.GetFullName());
+                }      
             }
         }
         catch(Exception ex)
         {
-            Console.PrintRed("You can't go into the wall :x\n");
+            this.currentMap.SetComunicate("You can't go into the wall :x");
         }
         
         this.currentMap.PrintBoard();
